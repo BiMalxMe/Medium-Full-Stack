@@ -1,4 +1,4 @@
-import { createBlogInput, updateBlogInput } from "@100xdevs/medium-common";
+import { createBlogInput, updateBlogInput } from "@bimalxme/medium-commons";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";

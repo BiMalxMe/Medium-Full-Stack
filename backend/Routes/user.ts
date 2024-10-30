@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { Hono } from "hono";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import {  sign ,verify} from "hono/jwt";
-import  {signupInput,signinInput} from "@100xdevs/medium-common"
+import  {signupInput,signinInput} from "@bimalxme/medium-commons"
 
 export const userRouter=new Hono<{
     Bindings:{

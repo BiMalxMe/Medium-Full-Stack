@@ -1,5 +1,5 @@
 {
-  "name": "@bimalxme/medium-common",
+  "name": "@bimalxme/medium-commons",
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
