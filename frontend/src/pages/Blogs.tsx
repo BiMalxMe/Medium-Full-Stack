@@ -11,16 +11,18 @@ export const Blogs=()=>{
             Loading........
         </div>
     }
+    
     return <div>
     <Appbar />
-    <div className="flex justify-center">
-    <div className="border-b border-slate-300  max-w-xl">
-       <BlogCard     
-    authorName={"Bimal"}
-    title={"the todays Generation"}
-    content={"It is based  on the first asdgjnbaikreiorefjhgierhgiewrhgirewjhigrhgirehgikcentury of the world development"}
+    <div className="flex justify-center mb-4 ">
+    <div className="border-b border-slate-300">
+     {blogs.map(blog=><BlogCard   
+    id={blog.id}  
+    authorName={blog.author.name || "Anonymous"}
+    title={blog.title}
+    content={blog.content}
     publishedDate={"2nd Feb 2022"}/>
-      
+)} 
     </div>
     </div>
     </div>
