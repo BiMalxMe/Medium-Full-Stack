@@ -17,7 +17,7 @@ export const Appbar = () => {
         New
       </button>
       </Link>
-        <Avatar name={"Bimal"} />
+        <Avatar name={"Anonymous"} />
         
       </div>
     </div>
