@@ -17,9 +17,9 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     const response=await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInputs);
     const jwt=response.data.jwt;
     localStorage.setItem('token',"Bearer "+jwt);
-    navigate("/blogs")
+    if(!response.data.error){    navigate("/blogs")}
 }catch(e){
-    alert("An error occured"+e)
+    console.error("An error occured")
 }
 }
   return (
@@ -75,6 +75,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 }));
               }}
             />
+      
             <button onClick={RequestSender}
               type="button"
               className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 

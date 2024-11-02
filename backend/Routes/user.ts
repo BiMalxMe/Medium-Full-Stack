@@ -40,31 +40,41 @@ userRouter.post("/signup", async(c) => {
     return c.text("Invalid")
   }
   });
-userRouter.post("/signin", async(c) => {
+  userRouter.post('/signin', async (c) => {
+    const body = await c.req.json();
+    const { success } = signinInput.safeParse(body);
+    if (!success) {
+        c.status(411);
+        return c.json({
+            message: "Inputs not correct"
+        })
+    }
+
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
+    }).$extends(withAccelerate())
   
-    const body=await c.req.json()
-    const { success }=signinInput.safeParse(body)
-      if(!success){
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          email: body.username,
+          password: body.password,
+        }
+      })
+      if (!user) {
+        c.status(403);
         return c.json({
-            error:true,
-            msg:'Incorrect format of data'
+          message: "Incorrect creds"
         })
       }
-    const user=await prisma.user.findUnique({
-      where:{
-        email:body.email,
-      }
-    })
-    if(!user){
-      c.status(403)
-      return c.json({
-        error:true,
-        msg:"User not found"
-      })
+      const jwt = await sign({
+        id: user.id
+      }, c.env.jwtsecret);
+  
+      return c.json({jwt})
+    } catch(e) {
+      console.log(e);
+      c.status(411);
+      return c.text('Invalid')
     }
-    const jwt=await sign({id:user.id},c.env.jwtsecret)
-    return c.json({jwt})
-  });
+  })
