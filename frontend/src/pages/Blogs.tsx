@@ -5,6 +5,17 @@ import { useBlogs } from "../components/hooks"
 
 
 export const Blogs=()=>{
+    // Define the Blog interface to specify the structure of each blog
+interface Blog {
+    id: string;
+    author: {
+      name: string;
+    };
+    title: string;
+    content: string;
+    publishedDate: string;
+  }
+  
     const {loading,blogs}=useBlogs()
     if(loading){
         return <div className="h-screen flex flex-col justify-center">
@@ -26,7 +37,7 @@ export const Blogs=()=>{
     <Appbar />
     <div className="flex justify-center mb-4 ">
     <div className="border-b border-slate-300">
-     {blogs.map(blog=><BlogCard   
+     {blogs.map((blog:Blog)=><BlogCard   
     id={blog.id}  
     authorName={blog.author.name || "Anonymous"}
     title={blog.title}
