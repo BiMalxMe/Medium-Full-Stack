@@ -6,15 +6,19 @@ export const Main = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/signin');
+        
+        // Check if token is valid and includes "Bearer"
+        if (!token || !token.includes('Bearer ')) {
+            navigate('/signin');  // Navigate to signin if token is invalid
+        } else {
+            navigate('/blogs');  // Or wherever the user should go if the token is valid
         }
-        navigate('/blogs')
     }, [navigate]);
+    
 
     return (
         <div>
-            {/* Your main component content here */}
+            Loading..............
         </div>
     );
 };
