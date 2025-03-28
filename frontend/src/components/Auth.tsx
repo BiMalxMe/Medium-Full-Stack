@@ -5,23 +5,38 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
-    const navigate=useNavigate()
+  const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",
     username: "",
     password: "",
   });
-  async function RequestSender(){
-    try{
 
-    const response=await axios.post(`${BACKEND_URL}/api/v1/user/${type==="signup"?"signup":"signin"}`,postInputs);
-    const jwt=response.data.jwt;
-    localStorage.setItem('token',"Bearer "+jwt);
-    if(!response.data.error){    navigate("/blogs")}
-}catch(e){
-    console.error("An error occured")
-}
-}
+  async function RequestSender() {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
+        postInputs
+      );
+      
+      const { jwt, message, error } = response.data;
+      console.log(response);
+
+      // Store JWT token in localStorage if the request is successful
+      if (!error) {
+        localStorage.setItem("token", "Bearer " + jwt);
+        navigate("/blogs");
+      }
+
+      // Show the message from the backend using an alert
+      alert(message || "An unexpected error occurred.");
+      
+    } catch (e) {
+      console.error("An error occurred:", e);
+      alert("An error occurred while processing your request.");
+    }
+  }
+
   return (
     <div className="flex justify-center flex-col h-screen">
       <div className="flex justify-center">
@@ -30,7 +45,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
             <div className="text-3xl font-bold">Create an Account</div>
             <div className="text-slate-500">
               {type === "signin"
-                ? "Dont have an Account? "
+                ? "Don't have an Account? "
                 : "Already have an account?"}
               <Link
                 className="pl-2 underline"
@@ -58,10 +73,10 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
               label="Username"
               placeholder="bimal@gmail.com"
               onChange={(e) => {
-                setPostInputs(({
-                    ...postInputs,
+                setPostInputs({
+                  ...postInputs,
                   username: e.target.value,
-                }));
+                });
               }}
             />
             <LabelledInput
@@ -69,14 +84,14 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
               label="password"
               placeholder="password"
               onChange={(e) => {
-                setPostInputs(({
-                    ...postInputs,
+                setPostInputs({
+                  ...postInputs,
                   password: e.target.value,
-                }));
+                });
               }}
             />
-      
-            <button onClick={RequestSender}
+            <button
+              onClick={RequestSender}
               type="button"
               className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
            focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 
@@ -97,6 +112,7 @@ interface Inputstype {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   type?: string;
 }
+
 function LabelledInput({ label, placeholder, onChange, type }: Inputstype) {
   return (
     <div>
@@ -116,4 +132,3 @@ function LabelledInput({ label, placeholder, onChange, type }: Inputstype) {
     </div>
   );
 }
-
