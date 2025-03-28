@@ -18,7 +18,7 @@ export const Main = () => {
 
     return (
         <div>
-            Loading..............
+            Loading...............
         </div>
     );
 };
